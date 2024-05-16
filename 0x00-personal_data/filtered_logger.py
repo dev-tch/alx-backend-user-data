@@ -8,7 +8,6 @@ module with:
 import re
 from typing import List
 import logging
-import mysql
 import mysql.connector
 import os
 
