@@ -78,10 +78,10 @@ def get_logger() -> logging.Logger:
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """ connect to mysql database and return MySQLConnection object"""
     config = {
-        'user': os.environ['PERSONAL_DATA_DB_USERNAME'],
-        'password': os.environ['PERSONAL_DATA_DB_PASSWORD'],
-        'host': os.environ['PERSONAL_DATA_DB_HOST'],
-        'database': os.environ['PERSONAL_DATA_DB_NAME']
+        'user': os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        'password': os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        'host': os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        'database': os.getenv('PERSONAL_DATA_DB_NAME')
     }
     con_obj = mysql.connector.connect(**config)
     return con_obj
