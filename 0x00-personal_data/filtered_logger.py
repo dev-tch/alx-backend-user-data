@@ -60,7 +60,7 @@ class RedactingFormatter(logging.Formatter):
 
 
 def get_logger() -> logging.Logger:
-    """ """
+    """ return logger object"""
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
     console_handler = logging.StreamHandler()
