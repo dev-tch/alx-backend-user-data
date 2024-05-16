@@ -82,5 +82,5 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         'host': os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
         'database': os.getenv('PERSONAL_DATA_DB_NAME')
     }
-    con_obj = mysql.connector.connect(**config)
+    con_obj = mysql.connector.connection.MySQLConnection(**config)
     return con_obj
