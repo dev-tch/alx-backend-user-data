@@ -100,9 +100,13 @@ def main():
     rows = cursor.fetchall()
     for row in rows:
         _list = [f"{tup_obj[0]}={tup_obj[1]}" for tup_obj in zip(columns, row)]
-        message = RedactingFormatter.SEPARATOR.join(_list)
+        message = f'{RedactingFormatter.SEPARATOR} '.join(_list)
+        message += f'{RedactingFormatter.SEPARATOR}'
         logger.info(filter_datum(PII_FIELDS, RedactingFormatter.REDACTION,
                                  message, RedactingFormatter.SEPARATOR))
+
+    cursor.close()
+    db.close()
 
 
 if __name__ == "__main__":
