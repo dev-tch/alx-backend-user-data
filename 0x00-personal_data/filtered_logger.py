@@ -88,3 +88,22 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=db_name,
     )
     return cnx
+
+
+def main():
+    """fetch data from table users and log it"""
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+    columns = list(map(lambda x: x[0], cursor.description))
+    rows = cursor.fetchall()
+    for row in rows:
+        _list = [f"{tup_obj[0]}={tup_obj[1]}" for tup_obj in zip(columns, row)]
+        message = RedactingFormatter.SEPARATOR.join(_list)
+        logger.info(filter_datum(PII_FIELDS, RedactingFormatter.REDACTION,
+                                 message, RedactingFormatter.SEPARATOR))
+
+
+if __name__ == "__main__":
+    main()
