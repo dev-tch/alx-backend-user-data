@@ -32,4 +32,4 @@ def test_authorization() -> str:
     Return:
       - test request protected ressource
     """
-    abort(404)
+    abort(401)
