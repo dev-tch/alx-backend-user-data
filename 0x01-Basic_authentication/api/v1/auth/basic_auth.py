@@ -68,3 +68,20 @@ class BasicAuth(Auth):
                 return None
         except KeyError:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ override the  method current_user in super class Auth"""
+        auth_value = self.authorization_header(request)
+        if not auth_value:
+            return None
+        part_64auth = self.extract_base64_authorization_header(auth_value)
+        if not part_64auth:
+            return None
+        utf8_str = self.decode_base64_authorization_header(part_64auth)
+        if not utf8_str:
+            return None
+        email, passwd = self.extract_user_credentials(utf8_str)
+        if email is None or passwd is None:
+            return None
+        # finally return the object User from credentials
+        return self.user_object_from_credentials(email, passwd)
