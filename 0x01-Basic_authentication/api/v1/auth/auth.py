@@ -17,8 +17,6 @@ class Auth:
         ])
         if auth_req_ok:
             return True
-        if path in excluded_paths:
-            return False
         if not path.endswith('/'):
             path += '/'
         for path_ignored in excluded_paths:
