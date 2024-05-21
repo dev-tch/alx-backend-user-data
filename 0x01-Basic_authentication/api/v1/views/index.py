@@ -27,9 +27,18 @@ def stats() -> str:
 
 
 @app_views.route('/unauthorized', methods=['GET'],  strict_slashes=False)
-def test_authorization() -> str:
+def test_authentication() -> str:
     """ GET /api/v1/unauthorized
     Return:
       - test request protected ressource
     """
     abort(401)
+
+
+@app_views.route('/forbidden', methods=['GET'],  strict_slashes=False)
+def test_authorization() -> str:
+    """ GET /api/v1/forbidden
+    Return:
+      - return 403 if ressource needs more permession from admin
+    """
+    abort(403)
