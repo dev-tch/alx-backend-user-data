@@ -40,10 +40,7 @@ class BasicAuth(Auth):
                                  ) -> (str, str):
         """ extract user auth data"""
         auth_val = decoded_base64_authorization_header
-        if auth_val is None:
-            return None
-        if not isinstance(auth_val, str):
-            return None
-        if ':' not in auth_val:
-            return None
+        valid_str = auth_val is None or not isinstance(auth_val, str)
+        if valid_str or ':' not in auth_val:
+            return (None, None)
         return tuple(auth_val.split(':', 1))
