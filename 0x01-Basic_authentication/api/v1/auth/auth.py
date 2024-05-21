@@ -10,7 +10,7 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """handle authentication """
-        auth_req_ok = all([
+        auth_req_ok = any([
             path is None,
             not excluded_paths,
 
