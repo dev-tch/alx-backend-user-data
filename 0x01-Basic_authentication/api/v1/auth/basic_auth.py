@@ -56,12 +56,15 @@ class BasicAuth(Auth):
             not isinstance(user_pwd, str)
         ]):
             return None
-        list_usr_instance = []
-        list_usr_instance = User.search({'email': user_email})
-        if len(list_usr_instance) == 0:
-            return None
-        else:
-            for obj_user in list_usr_instance:
-                if obj_user.is_valid_password(user_pwd):
-                    return obj_user
+        try:
+            list_usr_instance = []
+            list_usr_instance = User.search({'email': user_email})
+            if len(list_usr_instance) == 0:
+                return None
+            else:
+                for obj_user in list_usr_instance:
+                    if obj_user.is_valid_password(user_pwd):
+                        return obj_user
+                return None
+        except KeyError:
             return None
