@@ -2,7 +2,7 @@
 """ Module of Users views
 """
 from api.v1.views import app_views
-from flask import jsonify, request,  make_response
+from flask import jsonify, request,  make_response, abort
 from models.user import User
 
 
@@ -43,3 +43,14 @@ def login() -> str:
             return jsonify({"error": "wrong password"}), 401
     except KeyError:
         return jsonify({"error": "no user found for this email"}), 404
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'], strict_slashes=False)
+def logout():
+    """  logout delete session_id from storage  """
+    from api.v1.app import auth
+    is_logged_out = auth.destroy_session(request)
+    if not is_logged_out:
+        abort(404)
+    return jsonify({}), 200
