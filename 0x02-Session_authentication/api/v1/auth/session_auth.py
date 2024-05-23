@@ -2,6 +2,7 @@
 """ module to manage session"""
 from api.v1.auth.auth import Auth
 import uuid
+import os
 
 
 class SessionAuth(Auth):
@@ -22,3 +23,12 @@ class SessionAuth(Auth):
         if session_id is None or not isinstance(session_id, str):
             return None
         return self.user_id_by_session_id.get(session_id)
+
+    def session_cookie(self, request=None):
+        """ returns a cookie value from a request"""
+        if request is None:
+            return None
+        cookie_name = os.getenv('SESSION_NAME')
+        if cookie_name is None:
+            return None
+        return request.cookies.get(cookie_name)
