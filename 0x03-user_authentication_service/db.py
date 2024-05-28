@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, __version__
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
 from user import Base
+from typing import Union, Optional
+
+
+version = float(__version__[0:3])
+if version >= 1.3 and version <= 1.4:
+    from sqlalchemy.orm.exc import InvalidRequestError, NoResultFound
+else:
+    from sqlalchemy.exc import InvalidRequestError, NoResultFound
 
 
 class DB:
@@ -36,3 +44,14 @@ class DB:
         self._session.add(obj_user)
         self._session.commit()
         return obj_user
+
+    def find_user_by(self,
+                     **kwargs) -> Optional[Union[User, NoResultFound]]:
+        """implement find_user_by"""
+        try:
+            obj_user = self._session.query(User).filter_by(**kwargs).first()
+            if obj_user is None:
+                raise NoResultFound
+            return obj_user
+        except InvalidRequestError:
+            raise
