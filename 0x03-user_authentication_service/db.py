@@ -7,7 +7,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
 from user import Base
-from typing import Union, Optional
 
 
 version = float(__version__[0:3])
@@ -45,8 +44,7 @@ class DB:
         self._session.commit()
         return obj_user
 
-    def find_user_by(self,
-                     **kwargs) -> Optional[Union[User, NoResultFound]]:
+    def find_user_by(self, **kwargs) -> User:
         """implement find_user_by"""
         try:
             obj_user = self._session.query(User).filter_by(**kwargs).first()
