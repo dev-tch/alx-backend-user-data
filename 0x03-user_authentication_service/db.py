@@ -10,7 +10,7 @@ from user import Base
 
 
 version = float(__version__[0:3])
-if version >= 1.3 and version <= 1.4:
+if version >= 1.3 and version < 1.4:
     from sqlalchemy.orm.exc import InvalidRequestError, NoResultFound
 else:
     from sqlalchemy.exc import InvalidRequestError, NoResultFound
