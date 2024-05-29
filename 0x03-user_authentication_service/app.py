@@ -19,8 +19,8 @@ def hello_hbnb():
 @app.route('/users', methods=['POST'], strict_slashes=False)
 def users():
     """ api to register new user"""
-    email = request.form['email']
-    password = request.form['password']
+    email = request.form.get('email')
+    password = request.form.get('password')
     try:
         auth.register_user(email=email, password=password)
         return jsonify({"email": email, "message": "user created"}), 200
@@ -31,8 +31,8 @@ def users():
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login():
     """create session cookie for registered user"""
-    email = request.form['email']
-    password = request.form['password']
+    email = request.form.get('email')
+    password = request.form.get('password')
     if not auth.valid_login(email, password):
         abort(401)
     else:
