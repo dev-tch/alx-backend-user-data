@@ -5,6 +5,7 @@ import bcrypt
 from db import DB, NoResultFound, InvalidRequestError
 from user import User
 import uuid
+from typing import Union
 
 
 def _hash_password(password: str) -> bytes:
@@ -57,5 +58,14 @@ class Auth:
             token_session = _generate_uuid()
             self._db.update_user(obj_user.id, session_id=token_session)
             return token_session
+        except (NoResultFound, InvalidRequestError):
+            return None
+
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
+        """ return the user that having session_id"""
+        if not session_id:
+            return None
+        try:
+            return self._db.find_user_by(session_id=session_id)
         except (NoResultFound, InvalidRequestError):
             return None
