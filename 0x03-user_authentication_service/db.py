@@ -8,13 +8,8 @@ from sqlalchemy.orm.session import Session
 from user import User
 from user import Base
 from typing import Dict
-
-version = float(__version__[0:3])
-if version < 1.4:
-    from sqlalchemy.orm.exc import NoResultFound
-    from sqlalchemy.exc import InvalidRequestError
-else:
-    from sqlalchemy.exc import InvalidRequestError, NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 
 class DB:
