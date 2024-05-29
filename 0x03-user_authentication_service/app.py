@@ -17,7 +17,7 @@ def hello_hbnb():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> str:
     """ api to register new user"""
     email = request.form.get('email')
     password = request.form.get('password')
@@ -29,7 +29,7 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """create session cookie for registered user"""
     email = request.form.get('email')
     password = request.form.get('password')
