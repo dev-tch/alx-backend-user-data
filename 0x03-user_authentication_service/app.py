@@ -17,7 +17,7 @@ def hello_hbnb():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def register_user():
+def users():
     """ api to register new user"""
     email = request.form['email']
     password = request.form['password']
