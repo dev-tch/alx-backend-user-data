@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Flask application
 """
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort
 from auth import Auth
 
 app = Flask(__name__)
@@ -31,6 +31,9 @@ def register_user():
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login():
     """create session cookie for registered user"""
+    print("*****before")
+    print(request.form)
+    print("****after")
     email = request.form['email']
     password = request.form['password']
     if not auth.valid_login(email, password):
@@ -38,7 +41,7 @@ def login():
     else:
         token_session = auth.create_session(email)
         json_response = {"email": email, "message": "logged in"}
-        response = make_response(jsonify(json_response))
+        response = jsonify(json_response)
         response.set_cookie('session_id', token_session)
         return response
 
