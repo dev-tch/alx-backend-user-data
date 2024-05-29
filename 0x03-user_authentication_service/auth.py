@@ -2,6 +2,8 @@
 """authentification  module
 """
 import bcrypt
+from db import DB, NoResultFound, InvalidRequestError
+from user import User
 
 
 def _hash_password(password: str) -> bytes:
@@ -10,3 +12,23 @@ def _hash_password(password: str) -> bytes:
     # because bcrypt works with bytes
     hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     return hashed
+
+
+class Auth:
+    """Auth class to interact with the authentication database.
+    """
+
+    def __init__(self):
+        self._db = DB()
+
+    def register_user(self, email: str, password: str) -> User:
+        """ register new user """
+        try:
+            self._db.find_user_by(email=email, hashed_password=password)
+        except NoResultFound:
+            hashed_password = _hash_password(password)
+            return self._db.add_user(email=email,
+                                     hashed_password=hashed_password)
+        except InvalidRequestError:
+            raise
+        raise ValueError(f'User {email} already exists')
