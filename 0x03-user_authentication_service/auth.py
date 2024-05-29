@@ -4,6 +4,7 @@
 import bcrypt
 from db import DB, NoResultFound, InvalidRequestError
 from user import User
+import uuid
 
 
 def _hash_password(password: str) -> bytes:
@@ -43,3 +44,7 @@ class Auth:
         except (NoResultFound, InvalidRequestError):
             pass
         return False
+
+    def _generate_uuid() -> str:
+        """return a string representation of a new UUID"""
+        return str(uuid.UUID())
