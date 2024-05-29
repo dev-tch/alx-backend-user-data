@@ -24,7 +24,7 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """ register new user """
         try:
-            self._db.find_user_by(email=email, hashed_password=password)
+            self._db.find_user_by(email=email)
         except NoResultFound:
             hashed_password = _hash_password(password)
             return self._db.add_user(email=email,
