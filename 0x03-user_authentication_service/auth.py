@@ -32,3 +32,14 @@ class Auth:
         except InvalidRequestError:
             raise
         raise ValueError(f'User {email} already exists')
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """validate password for registred user"""
+        try:
+            user_obj = self._db.find_user_by(email=email)
+            if bcrypt.checkpw(password.encode('utf-8'),
+                              user_obj.hashed_password):
+                return True
+        except (NoResultFound, InvalidRequestError):
+            pass
+        return False
