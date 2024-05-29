@@ -7,13 +7,13 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
 from user import Base
+from sqlalchemy.exc import InvalidRequestError
 
 version = float(__version__[0:3])
 if version < 1.4:
     from sqlalchemy.orm.exc import NoResultFound
-    from sqlalchemy.exc import InvalidRequestError
 else:
-    from sqlalchemy.exc import NoResultFound, InvalidRequestError
+    from sqlalchemy.exc import NoResultFound
 
 
 class DB:
