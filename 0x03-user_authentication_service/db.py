@@ -7,8 +7,13 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
 from user import Base
-from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import InvalidRequestError
+
+version = float(__version__[0:3])
+if version < 1.4:
+    from sqlalchemy.orm.exc import NoResultFound
+    from sqlalchemy.exc import InvalidRequestError
+else:
+    from sqlalchemy.exc import NoResultFound, InvalidRequestError
 
 
 class DB:
@@ -42,9 +47,7 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """implement find_user_by"""
         try:
-            obj_user = self._session.query(User).filter_by(**kwargs).first()
-            if obj_user is None:
-                raise NoResultFound
+            obj_user = self._session.query(User).filter_by(**kwargs).one()
             return obj_user
-        except InvalidRequestError:
+        except (NoResultFound, InvalidRequestError):
             raise
