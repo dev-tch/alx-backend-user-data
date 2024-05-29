@@ -29,8 +29,8 @@ def register_user():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def log_user():
-    """log user status login"""
+def login():
+    """create session cookie for registered user"""
     email = request.form['email']
     password = request.form['password']
     if not auth.valid_login(email, password):
