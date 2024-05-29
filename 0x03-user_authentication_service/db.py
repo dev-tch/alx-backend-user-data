@@ -51,3 +51,19 @@ class DB:
             return obj_user
         except (NoResultFound, InvalidRequestError):
             raise
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """update User.user_id with kwargs"""
+        try:
+            user_obj = self.find_user_by(id=user_id)
+        except (NoResultFound, InvalidRequestError):
+            raise
+        columns = User.__table__.c.keys()
+        name_args = kwargs.keys()
+        if name_args:
+            if not set(name_args).issubset(set(columns)):
+                raise ValueError
+            for arg in name_args:
+                setattr(user_obj, arg, kwargs[arg])
+            self._session.commit()
+        return None
