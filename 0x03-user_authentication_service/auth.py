@@ -69,3 +69,12 @@ class Auth:
             return self._db.find_user_by(session_id=session_id)
         except (NoResultFound, InvalidRequestError):
             return None
+
+    def destroy_session(self, user_id: int) -> None:
+        """ remove session id from user """
+        try:
+            user_obj = self._db.find_user_by(id=user_id)
+            self._db.update_user(user_obj.id, session_id=None)
+        except (NoResultFound, InvalidRequestError):
+            pass
+        return None
