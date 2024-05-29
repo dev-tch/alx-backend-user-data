@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request, abort
 from auth import Auth
 
 app = Flask(__name__)
-auth = Auth()
+AUTH = Auth()
 
 
 @app.route('/', strict_slashes=False)
@@ -22,7 +22,7 @@ def users() -> str:
     email = request.form.get('email')
     password = request.form.get('password')
     try:
-        auth.register_user(email=email, password=password)
+        AUTH.register_user(email=email, password=password)
         return jsonify({"email": email, "message": "user created"}), 200
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
@@ -33,10 +33,10 @@ def login() -> str:
     """create session cookie for registered user"""
     email = request.form.get('email')
     password = request.form.get('password')
-    if not auth.valid_login(email, password):
+    if not AUTH.valid_login(email, password):
         abort(401)
     else:
-        token_session = auth.create_session(email)
+        token_session = AUTH.create_session(email)
         json_response = {"email": email, "message": "logged in"}
         response = jsonify(json_response)
         response.set_cookie('session_id', token_session)
