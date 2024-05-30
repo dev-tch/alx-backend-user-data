@@ -90,3 +90,14 @@ class Auth:
             return uuid
         except (NoResultFound, InvalidRequestError):
             raise ValueError
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """ update the hashed_password of registered user"""
+        try:
+            user_obj = self._db.find_user_by(reset_token=reset_token)
+            hashed = _hash_password(password)
+            self._db.update_user(user_obj.id,
+                                 hashed_password=hashed, reset_token=None)
+        except (NoResultFound, InvalidRequestError):
+            raise ValueError
+        return None
